@@ -1,0 +1,138 @@
+
+```html
+<!DOCTYPE html>
+<html lang="en" class="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VIXOL Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        azure: {
+                            50: '#e6f0ff',
+                            100: '#cce0ff',
+                            200: '#99c2ff',
+                            300: '#66a3ff',
+                            400: '#3385ff',
+                            500: '#0066cc',
+                            600: '#0052a3',
+                            700: '#003d7a',
+                            800: '#002952',
+                            900: '#001429',
+                        },
+                        broken: {
+                            white: '#fafafa',
+                            light: '#f5f5f5',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        body { font-family: 'Inter', sans-serif; }
+        .sidebar-link.active { background: rgba(0, 102, 204, 0.08); color: #0066cc; border-right: 3px solid #0066cc; }
+        .sidebar-link:hover:not(.active) { background: rgba(0, 102, 204, 0.04); }
+        .chart-bar { transition: height 0.6s cubic-bezier(0.34, 1.56, 0.64, 1); }
+        .fade-in { animation: fadeIn 0.5s ease-out; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes slideIn { from { transform: translateX(-100%); } to { transform: translateX(0); } }
+        .pie-segment { transition: transform 0.2s ease; transform-origin: center; }
+        .pie-segment:hover { transform: scale(1.03); }
+        .btn-primary { transition: all 0.2s ease; }
+        .btn-primary:hover { transform: translateY(-1px); box-shadow: 0 4px 12px rgba(0, 102, 204, 0.3); }
+        .btn-primary:active { transform: translateY(0); }
+        .card-hover { transition: all 0.2s ease; }
+        .card-hover:hover { box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06); }
+        .revoke-btn { transition: all 0.2s ease; }
+        .revoke-btn:hover { background: #fee2e2; color: #dc2626; }
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #d1d5db; border-radius: 3px; }
+        ::-webkit-scrollbar-thumb:hover { background: #9ca3af; }
+        .mobile-overlay { transition: opacity 0.3s ease; }
+        .mobile-sidebar { transition: transform 0.3s ease; }
+        .tooltip { position: absolute; background: #1f2937; color: white; padding: 4px 10px; border-radius: 6px; font-size: 12px; pointer-events: none; opacity: 0; transition: opacity 0.2s; white-space: nowrap; z-index: 50; }
+        .tooltip::after { content: ''; position: absolute; top: 100%; left: 50%; transform: translateX(-50%); border: 4px solid transparent; border-top-color: #1f2937; }
+    </style>
+</head>
+<body class="bg-broken-light min-h-screen">
+    <!-- Mobile Overlay -->
+    <div id="mobileOverlay" class="mobile-overlay fixed inset-0 bg-black/30 z-40 hidden" onclick="toggleSidebar()"></div>
+
+    <!-- Top Bar -->
+    <header class="fixed top-0 left-0 right-0 bg-white border-b border-gray-200 z-30 h-16">
+        <div class="flex items-center justify-between h-full px-4 lg:px-6">
+            <div class="flex items-center gap-4">
+                <!-- Mobile menu button -->
+                <button onclick="toggleSidebar()" class="lg:hidden p-2 rounded-lg hover:bg-gray-100 transition">
+                    <svg class="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+                    </svg>
+                </button>
+                <!-- Logo -->
+                <div class="flex items-center gap-2.5">
+                    <div class="w-8 h-8 bg-azure-500 rounded-lg flex items-center justify-center">
+                        <svg class="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M10 2L3 7v6l7 5 7-5V7l-7-5zM10 4.2L14.8 7.5 10 10.8 5.2 7.5 10 4.2z"/>
+                        </svg>
+                    </div>
+                    <span class="text-xl font-bold text-gray-900 tracking-tight">VIXOL</span>
+                </div>
+            </div>
+
+            <!-- Balance Cards -->
+            <div class="flex items-center gap-3">
+                <div class="hidden sm:flex items-center gap-2 bg-broken-light rounded-xl px-4 py-2 border border-gray-100">
+                    <div class="w-2 h-2 bg-emerald-400 rounded-full animate-pulse"></div>
+                    <span class="text-xs text-gray-500 font-medium">Balance</span>
+                    <span class="text-sm font-semibold text-gray-900">€45.23</span>
+                </div>
+                <div class="hidden md:flex items-center gap-2 bg-azure-50 rounded-xl px-4 py-2 border border-azure-100">
+                    <svg class="w-4 h-4 text-azure-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/>
+                    </svg>
+                    <span class="text-xs text-azure-600 font-medium">Saved this week</span>
+                    <span class="text-sm font-semibold text-azure-700">€12.50</span>
+                </div>
+                <!-- Profile -->
+                <div class="flex items-center gap-2 ml-2">
+                    <div class="w-9 h-9 bg-azure-500 rounded-full flex items-center justify-center text-white text-sm font-semibold cursor-pointer hover:bg-azure-600 transition">
+                        V
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Sidebar -->
+    <aside id="sidebar" class="mobile-sidebar fixed left-0 top-16 bottom-0 w-60 bg-white border-r border-gray-200 z-40 transform -translate-x-full lg:translate-x-0 transition-transform">
+        <nav class="flex flex-col p-3 gap-1 mt-4">
+            <a href="#" class="sidebar-link active flex items-center gap-3 px-4 py-2.5 rounded-l-lg text-sm font-medium transition" onclick="setActiveNav(this)">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"/>
+                </svg>
+                Overview
+            </a>
+            <a href="#" class="sidebar-link flex items-center gap-3 px-4 py-2.5 rounded-l-lg text-sm font-medium text-gray-600 transition" onclick="setActiveNav(this)">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z"/>
+                </svg>
+                API Keys
+            </a>
+            <a href="#" class="sidebar-link flex items-center gap-3 px-4 py-2.5 rounded-l-lg text-sm font-medium text-gray-600 transition" onclick="setActiveNav(this)">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
+                </svg>
+                Usage
+            </a>
+            <a href="#" class="sidebar-link flex items-center gap-3 px-4 py-2.5 rounded-l-lg text-sm font-medium text-gray-600 transition" onclick="setActiveNav(this)">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.066 2.573c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.573 1.066c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.066-2.573c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/>
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M15 12a3

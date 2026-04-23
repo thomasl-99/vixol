@@ -1,0 +1,188 @@
+
+```html
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VIXOL - Pricing</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        azure: {
+                            50: '#f0f7ff',
+                            100: '#e0efff',
+                            200: '#b9dfff',
+                            300: '#7cc4ff',
+                            400: '#36a6ff',
+                            500: '#0c8ce9',
+                            600: '#006fc7',
+                            700: '#0058a1',
+                            800: '#034b85',
+                            900: '#093f6e',
+                            950: '#062849',
+                        },
+                        broken: {
+                            white: '#f8f9fb',
+                            light: '#f3f4f8',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+        body { font-family: 'Inter', sans-serif; }
+        .gradient-bg {
+            background: linear-gradient(135deg, #f0f7ff 0%, #e0efff 50%, #f0f7ff 100%);
+        }
+        .card-hover {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .card-hover:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 25px 60px -12px rgba(0, 111, 199, 0.15);
+        }
+        .pro-glow {
+            box-shadow: 0 0 0 1px rgba(12, 140, 233, 0.3), 0 20px 50px -12px rgba(12, 140, 233, 0.2);
+        }
+        .savings-pulse {
+            animation: pulse-azure 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+        @keyframes pulse-azure {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(12, 140, 233, 0.3); }
+            50% { box-shadow: 0 0 0 12px rgba(12, 140, 233, 0); }
+        }
+        .faq-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out, padding 0.3s ease-out;
+        }
+        .faq-content.open {
+            max-height: 500px;
+        }
+        .check-icon {
+            color: #0c8ce9;
+        }
+        .strikethrough {
+            position: relative;
+            color: #ef4444;
+        }
+        .strikethrough::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 50%;
+            width: 100%;
+            height: 2px;
+            background: #ef4444;
+            transform: rotate(-5deg);
+        }
+        .ticker-number {
+            display: inline-block;
+            transition: all 0.5s ease;
+        }
+    </style>
+</head>
+<body class="bg-white dark:bg-gray-950 text-gray-900 dark:text-gray-100 antialiased">
+
+    <!-- Navigation -->
+    <nav class="fixed top-0 w-full bg-white/80 dark:bg-gray-950/80 backdrop-blur-xl border-b border-gray-100 dark:border-gray-800 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <div class="flex items-center gap-2">
+                    <div class="w-8 h-8 bg-azure-500 rounded-lg flex items-center justify-center">
+                        <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+                        </svg>
+                    </div>
+                    <span class="text-xl font-bold text-gray-900 dark:text-white">VIXOL</span>
+                </div>
+                <div class="hidden md:flex items-center gap-8">
+                    <a href="#pricing" class="text-sm font-medium text-gray-600 dark:text-gray-300 hover:text-azure-600 transition-colors">Pricing</a>
+                    <a href="#features" class="text-sm font-medium text-gray-600 dark:text-gray-300 hover:text-azure-600 transition-colors">Features</a>
+                    <a href="#savings" class="text-sm font-medium text-gray-600 dark:text-gray-300 hover:text-azure-600 transition-colors">Savings</a>
+                    <a href="#faq" class="text-sm font-medium text-gray-600 dark:text-gray-300 hover:text-azure-600 transition-colors">FAQ</a>
+                </div>
+                <div class="flex items-center gap-3">
+                    <button onclick="toggleDark()" class="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors" aria-label="Toggle dark mode">
+                        <svg id="sun-icon" class="w-5 h-5 hidden dark:block text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/>
+                        </svg>
+                        <svg id="moon-icon" class="w-5 h-5 dark:hidden text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/>
+                        </svg>
+                    </button>
+                    <a href="#pricing" class="hidden sm:inline-flex items-center px-4 py-2 text-sm font-semibold text-white bg-azure-500 hover:bg-azure-600 rounded-lg transition-colors">
+                        Get Started
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="gradient-bg dark:bg-gray-950 pt-32 pb-16 px-4">
+        <div class="max-w-4xl mx-auto text-center">
+            <div class="inline-flex items-center gap-2 px-4 py-2 bg-azure-100 dark:bg-azure-950 rounded-full mb-6">
+                <span class="w-2 h-2 bg-azure-500 rounded-full animate-pulse"></span>
+                <span class="text-sm font-medium text-azure-700 dark:text-azure-300">Save 15% on every AI API call</span>
+            </div>
+            <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-gray-900 dark:text-white leading-tight mb-6">
+                Pay Less for the
+                <span class="text-transparent bg-clip-text bg-gradient-to-r from-azure-500 to-azure-700">Same AI Power</span>
+            </h1>
+            <p class="text-lg sm:text-xl text-gray-600 dark:text-gray-400 max-w-2xl mx-auto mb-10">
+                Access Anthropic, OpenAI, and more through VIXOL's unified gateway. Same models, same quality — <strong class="text-azure-600 dark:text-azure-400">15% less cost</strong>.
+            </p>
+
+            <!-- Savings Calculator Banner -->
+            <div id="savings" class="savings-pulse inline-flex flex-col sm:flex-row items-center gap-4 sm:gap-6 bg-white dark:bg-gray-900 border border-azure-200 dark:border-azure-800 rounded-2xl px-6 sm:px-8 py-5 shadow-lg">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 bg-red-50 dark:bg-red-950 rounded-full flex items-center justify-center flex-shrink-0">
+                        <svg class="w-5 h-5 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                        </svg>
+                    </div>
+                    <div class="text-left">
+                        <p class="text-xs text-gray-500 dark:text-gray-400 uppercase tracking-wide">Direct from Anthropic</p>
+                        <p class="text-xl font-bold strikethrough">€100</p>
+                    </div>
+                </div>
+                <svg class="w-6 h-6 text-gray-400 rotate-90 sm:rotate-0 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"/>
+                </svg>
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 bg-emerald-50 dark:bg-emerald-950 rounded-full flex items-center justify-center flex-shrink-0">
+                        <svg class="w-5 h-5 text-emerald-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                        </svg>
+                    </div>
+                    <div class="text-left">
+                        <p class="text-xs text-gray-500 dark:text-gray-400 uppercase tracking-wide">Through VIXOL</p>
+                        <p class="text-xl font-bold text-emerald-600 dark:text-emerald-400">€85</p>
+                    </div>
+                </div>
+                <div class="w-px h-8 bg-gray-200 dark:bg-gray-700 hidden sm:block"></div>
+                <div class="bg-azure-50 dark:bg-azure-950 px-4 py-2 rounded-xl">
+                    <p class="text-xs text-azure-600 dark:text-azure-400 font-medium">You Save</p>
+                    <p class="text-2xl font-extrabold text-azure-600 dark:text-azure-400">€15</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Billing Toggle -->
+    <section id="pricing" class="py-16 px-4 bg-white dark:bg-gray-950">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl sm:text-4xl font-bold text-gray-900 dark:text-white mb-4">Simple, Transparent Pricing</h2>
+                <p class="text-gray-600 dark:text-gray-400 max-w-xl mx-auto">All plans include 15% savings on API costs. Choose the plan that fits your usage.</p>
+                
+                <!-- Billing Toggle -->
+                <div class="flex items-center justify-center
