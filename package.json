@@ -1,7 +1,7 @@
 {
-  "name": "@tjd.langeberg/vixol",
-  "version": "1.1.0",
-  "description": "Intelligent LLM cost optimization: save 40% with smart routing to Groq/Claude + caching",
+  "name": "@vixol/vixol",
+  "version": "1.2.0",
+  "description": "Intelligent LLM cost optimizer - Save 61% on API costs with automatic provider routing",
   "main": "client.js",
   "files": [
     "client.js",
@@ -9,20 +9,21 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/thomasl-99/vixol"
+    "url": "git+https://github.com/thomasl-99/vixol.git"
   },
   "keywords": [
     "llm",
-    "api",
     "cost-optimization",
-    "groq",
+    "ai",
+    "routing",
     "claude",
-    "anthropic",
-    "cache",
-    "fintech",
-    "tokens"
+    "groq",
+    "llama",
+    "intelligent-routing",
+    "api",
+    "saas"
   ],
-  "author": "Thomas Langeberg",
+  "author": "Thomas Langeberg <thomas@vixol.cloud>",
   "publishConfig": {
     "access": "public"
   },
@@ -33,8 +34,6 @@
   "engines": {
     "node": ">=18.0.0"
   },
-  "bugs": {
-    "url": "https://github.com/thomasl-99/vixol/issues"
-  },
-  "homepage": "https://vixol.cloud"
+  "bugs": "https://github.com/thomasl-99/vixol/issues",
+  "homepage": "https://github.com/thomasl-99/vixol#readme"
 }
