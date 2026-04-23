@@ -1,9 +1,12 @@
 {
   "name": "@tjd.langeberg/vixol",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Intelligent LLM cost optimization: save 40% with smart routing to Groq/Claude + caching",
   "main": "client.js",
-  "files": ["client.js", "README.md"],
+  "files": [
+    "client.js",
+    "README.md"
+  ],
   "repository": {
     "type": "git",
     "url": "https://github.com/thomasl-99/vixol"
